@@ -11,14 +11,16 @@
       crossorigin="anonymous"
     />
   </head>
+  {% for email in emails %}
   <body>
     <div class="container">
       <h1 style="margin-top: 25px; font-size: 180%">{{ subjects }}</h1>
       <h5 style="padding: 20px; padding-top: 3%; padding-left: 0%">
-        Vick Garcia<spam
+        {{email.Reps}}<spam
           style="padding-left: 1%; color: gray; font-weight: lighter"
-          >vick_garcia@gmail.com</spam
+          >{{email.Email}}</spam
         >
+
         <spam
           style="
             color: gray;
@@ -27,17 +29,19 @@
             font-size: medium;
           "
         >
-          {{ emails.Time | date:"F j, Y, g:i a" }}
+          {{ email.Time}}
         </spam>
       </h5>
     </div>
-    <div class="container">
-      Hi Seniors, This is just a friendly reminder that tonight we will be
-      hosting a virtual workshop on the new FAFSA. This will be led by a
-      financial aid office director. We highly encourage you to attend!
-      Reminder, if you are a senior hoping to get El Camino's South Bay Promise
-      (free tuition for 2 years), you must submit a financial aid application.
-      The zoom link for tonight's session is here. Hope to see you there!
-    </div>
+    <div class="container">{{email_body | safe}}</div>
+    <button
+      type="button"
+      class="btn btn-primary btn-lg"
+      style="margin-left: 80%"
+    >
+      Reply
+    </button>
+
+    {% endfor %}
   </body>
 </html>

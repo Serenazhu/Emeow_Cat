@@ -30,7 +30,7 @@ my_mail.select('Inbox')
 # Search for all emails in the inbox
 _, data = my_mail.search(None, 'ALL')
 
-mail_id_list = data[0].split()  # IDs of all emails that we want to fetch
+mail_id_list = data[0].split()[::-1]
 
 # Limit the number of emails to fetch to 30
 mail_id_list = mail_id_list[:30]
@@ -52,6 +52,7 @@ for num in mail_id_list:
 
 # NOTE that a Message object consists of headers and payloads.
 id_count = 0
+payload = None
 for msg in msgs[::-1]:
     for response_part in msg:
         if type(response_part) is tuple:

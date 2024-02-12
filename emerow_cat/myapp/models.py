@@ -27,6 +27,7 @@ class Inbox(models.Model):
     Time = models.CharField(max_length=100, db_column='Time')
     Body = models.CharField(max_length=10000, db_column='Body')
     Email = models.CharField(max_length=100, db_column='Email')
+    Reps = models.CharField(max_length=100, db_column="Reps")
 
     class Meta:
         managed = False
