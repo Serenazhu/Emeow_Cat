@@ -62,10 +62,22 @@ class Database:
     def sent(self):
         conn = sqlite3.connect('emaildb.db')
         cursor = conn.cursor()
-
+        receiver_address = self.reps_address
+        subject = self.subject.replace("Re: ", "")
         cursor.execute(
-            'INSERT INTO Sent (Email, Subject, Body, Time, Id) VALUES (?, ?, ?, ?, ?)', (
-                self.reps_address, self.subject, self.body, self.time, self.id)
-        )
+            'SELECT * FROM Sent WHERE Subject = ?', (subject,))
+        row = cursor.fetchone()
+        if row is None:
+            cursor.execute(
+                'INSERT INTO Sent (Email, Subject, Body, Time, Id) VALUES (?, ?, ?, ?, ?)', (
+                    receiver_address, self.subject, self.body, self.time, self.id)
+            )
+        else:
+            cursor.execute('DELETE FROM Sent WHERE Subject = ?', (subject,))
+            cursor.execute(
+                'INSERT INTO Sent (Email, Subject, Body, Time, Id) VALUES (?, ?, ?, ?, ?)', (
+                    receiver_address, subject, self.body, self.time, self.id)
+            )
+
         conn.commit()
         conn.close()

@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from .models import Businesses, Representatives, Inbox
+from .models import Businesses, Representatives, Inbox, Sent
 import json
 from django.http import JsonResponse
 
@@ -37,4 +37,20 @@ def mail(request):
         email_body = email.Body
         html_body = email_body.replace('\n', '<br>')
         # print(email.Body)
-    return render(request, "mail.html", {'subjects': email_subject, 'emails': emails, 'email_body': html_body})
+    return render(request, "mail.html", {'subjects': email_subject, 'emails': emails, 'email_body': html_body, 'tf': "From: "})
+
+
+def outbox(request):
+    emails = Sent.objects.all()
+    return render(request, "outbox.html", {'emails': emails})
+
+
+def outbox_mail(request):
+    email_subject = request.GET.get('subject')
+    print("SUBJECT " + email_subject)
+    emails = Sent.objects.filter(Subject=email_subject)
+    for email in emails:
+        email_body = email.Body
+        html_body = email_body.replace('\n', '<br>')
+        # print(email.Body)
+    return render(request, "mail.html", {'subjects': email_subject, 'emails': emails, 'email_body': html_body, 'tf': "To: "})
