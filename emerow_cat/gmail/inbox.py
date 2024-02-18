@@ -2,9 +2,10 @@ import imaplib
 import email
 import base64
 import chardet
-import sqlite3
 import yaml  # To load saved login credentials from a yaml file
 from my_database import Database
+from datetime import datetime
+import email.utils
 
 with open("emerow_cat\gmail\credentials.yml") as f:
     content = f.read()
@@ -61,8 +62,9 @@ for msg in msgs[::-1]:
             email_address = []
             name = []
             company = []
-            time = []
-            time.append(my_msg["date"])
+            # time = []
+            # time.append(my_msg["date"])
+            time = email.utils.parsedate_to_datetime(my_msg["date"])
             for i, c in enumerate(my_msg['from']):
                 if c == '<':
                     email_address.append(my_msg['from'][i+1:-1])

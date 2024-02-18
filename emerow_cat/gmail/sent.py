@@ -48,20 +48,8 @@ for msg in msgs[::-1]:
             time.append(my_msg["date"])
             receiver_address = my_msg['To']
             print("TO" + my_msg['To'])
-            # for i, c in enumerate(my_msg['To']):
-            #     if c == '<':
-            #         email_address.append(my_msg['To'][i+1:-1])
-            #         name.append(my_msg['To'][:i])
             print("subj:", my_msg['subject'])
             subject = my_msg['subject']
-            # print("from:", my_msg['from'])
-            # reps_address = email_address[0]
-            # for i, c in enumerate(reps_address):
-            #     if c == '@':
-            #         company.append(reps_address[i+1:-4])
-            # reps_name = name[0]
-            # reps_address = email_address[0]
-            # company_name = company[0]
             date = my_msg.get("Date")
             time = []
             count = 0
@@ -71,16 +59,11 @@ for msg in msgs[::-1]:
                 if count == 2:
                     time.append(date[:i])
 
-            # print(reps_address)
-            # print(reps_name)
-            # print(company_name)
-            # print("body:")
             print("date:" + my_msg.get("Date"))
             if my_msg.get("In-Reply-To") or my_msg.get("References"):
                 print("THIS MSG IS A REPLY")
 
             for part in my_msg.walk():
-                # print(part.get_content_type())
                 if part.get_content_type() == 'text/plain':
                     payload = part.get_payload()
                     if part['Content-Transfer-Encoding'] == 'base64':
@@ -107,3 +90,4 @@ for msg in msgs[::-1]:
                              subject, payload, time[0], actual_id)
             id_count += 1
             my_db.sent()
+            my_db.choose()
