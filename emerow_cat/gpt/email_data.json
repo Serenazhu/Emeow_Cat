@@ -1,0 +1,60 @@
+{
+    "Businesses": {
+        "accounts.google": "Client",
+        "gmail": "Supplier"
+    },
+    "Representatives": {
+        "1": {
+            "rep": "Google ",
+            "email": "no-reply@accounts.google.com",
+            "company": "accounts.google"
+        },
+        "2": {
+            "rep": "Serena Zhu ",
+            "email": "serenazhu11@gmail.com",
+            "company": "gmail"
+        }
+    },
+    "Inbox": {
+        "1": {
+            "email": "serenazhu11@gmail.com",
+            "subject": "hi",
+            "body": "Yay!!\r\n\r\nOn Tue, 13 Feb 2024 at 21:04, Serena Zhu <serenazhu11@gmail.com> wrote:\r\n\r\n> Pretty good.\r\n>\r\n> Serena\r\n>\r\n> On Tue, 13 Feb 2024 at 17:48, Test <t6264269796@gmail.com> wrote:\r\n>\r\n>> Hello,\r\n>> How are you?\r\n>>\r\n>> Tommy\r\n>>\r\n>\r\n",
+            "time": "Tue, 13 Feb 2024 21:06",
+            "rep": "Serena Zhu "
+        },
+        "2": {
+            "email": "serenazhu11@gmail.com",
+            "subject": "Inbox test",
+            "body": "Check again!\r\n\r\nOn Thu, 15 Feb 2024 at 18:13, Test <t6264269796@gmail.com> wrote:\r\n\r\n> Check!\r\n>\r\n> On Thu, Feb 15, 2024 at 6:07=E2=80=AFPM Serena Zhu <serenazhu11@gmail.com=\r\n> wrote:\r\n>\r\n>> YOO\r\n>>\r\n>> Serena\r\n>>\r\n>\r\n",
+            "time": "Thu, 15 Feb 2024 18:15",
+            "rep": "Serena Zhu "
+        }
+    },
+    "Sent": {
+        "1": {
+            "email": "\"serenazhu11@gmail.com\" <serenazhu11@gmail.com>",
+            "subject": "TEST",
+            "body": "Hii\r\n\r\nhow are you doing?\r\n\r\nTommy\r\n",
+            "time": "Tue, 13 Feb 2024 08:35"
+        },
+        "2": {
+            "email": "serenazhu11@gmail.com",
+            "subject": "weather",
+            "body": "Today's weather is good\r\n",
+            "time": "Tue, 13 Feb 2024 20:57"
+        },
+        "3": {
+            "email": "Serena Zhu <serenazhu11@gmail.com>",
+            "subject": "hi",
+            "body": "GREAT\r\n\r\nOn Tue, Feb 13, 2024 at 9:06=E2=80=AFPM Serena Zhu <serenazhu11@gmail.com> =\r\nwrote:\r\n\r\n> Yay!!\r\n>\r\n> On Tue, 13 Feb 2024 at 21:04, Serena Zhu <serenazhu11@gmail.com> wrote:\r\n>\r\n>> Pretty good.\r\n>>\r\n>> Serena\r\n>>\r\n>> On Tue, 13 Feb 2024 at 17:48, Test <t6264269796@gmail.com> wrote:\r\n>>\r\n>>> Hello,\r\n>>> How are you?\r\n>>>\r\n>>> Tommy\r\n>>>\r\n>>\r\n",
+            "time": "Tue, 13 Feb 2024 21:06"
+        },
+        "4": {
+            "email": "Serena Zhu <serenazhu11@gmail.com>",
+            "subject": "Inbox test",
+            "body": "Check!\r\n\r\nOn Thu, Feb 15, 2024 at 6:07=E2=80=AFPM Serena Zhu <serenazhu11@gmail.com> =\r\nwrote:\r\n\r\n> YOO\r\n>\r\n> Serena\r\n>\r\n",
+            "time": "Thu, 15 Feb 2024 18:13"
+        }
+    }
+}
