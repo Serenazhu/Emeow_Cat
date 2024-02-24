@@ -55,8 +55,8 @@ class Database:
 
         if row is None:
             cursor.execute(
-                'INSERT INTO Inbox (Email, Subject, Body, Time, Id, Reps) VALUES (?, ?, ?, ?, ?, ?)', (
-                    self.reps_address, subject, self.body, self.time, self.id, self.reps_name)
+                'INSERT INTO Inbox (Email, Subject, Body, Time, Id, Reps, Company) VALUES (?, ?, ?, ?, ?, ?, ?)', (
+                    self.reps_address, subject, self.body, self.time, self.id, self.reps_name, self.company_name)
             )
 
         else:

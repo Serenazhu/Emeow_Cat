@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,57 +20,62 @@
     ></script>
   </head>
   <body>
-    <h1 class="title">Emeow Cat</h1>
-    <div class="position-absolute top-50 start-50 translate-middle">
-      <a
-        class="btn btn-primary btn-lg"
-        role="button"
-        href="companies/?type=Supplier"
-        style="
-          margin-right: 80px;
-          padding: 20px;
-          border-radius: 7px;
-          background-color: rgb(230, 184, 239);
-          border-color: blueviolet;
-          color: black;
-        "
-      >
-        Supplier
-      </a>
-      <a
-        class="btn btn-primary btn-lg"
-        role="button"
-        href="companies/?type=Client"
-        style="
-          padding-left: 30px;
-          padding-right: 30px;
-          padding-top: 18px;
-          padding-bottom: 18px;
-          margin-left: 80px;
-          border-radius: 7px;
-          background-color: rgb(152, 191, 250);
-          color: black;
-          font-size: 20px;
-        "
-        >Client</a
-      >
-    </div>
-    <div class="position-absolute bottom-0 end-0">
-      <a
-        class="btn btn-primary btn-lg"
-        role="button"
-        href="outbox/"
-        style="
-          margin-right: 80px;
-          padding: 20px;
-          border-radius: 7px;
-          background-color: rgb(237, 233, 162);
-          border-color: rgb(153, 150, 63);
-          color: black;
-        "
-      >
-        Sent
-      </a>
-    </div>
+    <img src="{% static 'images/logo.png' %}" alt="logo"width="300" height="auto" />
+    <h4 class = "position-absolute top-0 start-50 translate-middle", style="margin-top: 15%; font-family: 'Comic Sans MS', cursive">Try <span><a href="#", style="color: rgb(223, 110, 129); font-family: 'Comic Sans MS', cursive">Mimi</a></span>, Your Personal Email Assistant</h2>
+    <!-- <h1 style="margin-left: 43%; margin-top: 8%">Emeow Cat</h1> -->
+    <h1 class="position-absolute top-0 start-50 translate-middle", style="margin-top: 10%;font-family: 'Comic Sans MS'">Emeow Cat</h1>
+    <div class="container text-center">
+      <div class="row", style="margin-top: 15% ;">
+        <div class="col">
+          <a
+            class="btn btn-primary btn-lg"
+            role="button"
+            href="companies/?type=Supplier"
+            style="
+              padding-top: 18px;
+              padding-bottom: 18px;
+              border-radius: 7px;
+              background-color: rgb(230, 184, 239);
+              border-color: blueviolet;
+              color: black;
+            "
+          >
+            Supplier
+          </a>
+        </div>
+        <div class="col"><a
+          class="btn btn-primary btn-lg"
+          role="button"
+          href="companies/?type=Client"
+          style="
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-top: 18px;
+            padding-bottom: 18px;
+            border-radius: 7px;
+            background-color: rgb(152, 191, 250);
+            color: black;
+            font-size: 20px;
+          "
+          >Client</a
+        ></div>
+        <div class="col"><a
+          class="btn btn-primary btn-lg"
+          role="button"
+          href="outbox/"
+          style="
+            padding: 20px;
+            padding-left: 35px;
+            padding-right: 35px;
+            border-radius: 7px;
+            background-color: rgb(237, 233, 162);
+            border-color: rgb(153, 150, 63);
+            color: black;
+          "
+        >
+          Sent
+        </a></div>
+ 
+    
   </body>
 </html>

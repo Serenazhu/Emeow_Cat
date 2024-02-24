@@ -2,6 +2,10 @@ import json
 import sqlite3
 
 
+import json
+import sqlite3
+
+
 def prep_data():
     Businesses = {}
     Representatives = {}
@@ -25,42 +29,43 @@ def prep_data():
         Businesses[company[0]] = type[0]
 
     # Representatives
-    cursor1.execute('SELECT Reps FROM Representatives')
-    cursor2.execute('SELECT Email FROM Representatives')
-    cursor3.execute('SELECT Company FROM Representatives')
-    reps = cursor1.fetchall()
-    emails = cursor2.fetchall()
-    companies = cursor3.fetchall()
-    n = 1
-    for rep, email, company in zip(reps, emails, companies):
-        Representatives[n] = {}
-        Representatives[n]['rep'] = rep[0]
-        Representatives[n]['email'] = email[0]
-        Representatives[n]['company'] = company[0]
-        n += 1
+        cursor1.execute(
+            'SELECT Reps FROM Representatives WHERE Company = ?', (company,))
+        cursor2.execute(
+            'SELECT Email FROM Representatives WHERE Company = ?', (company,))
+        reps = cursor1.fetchall()
+        emails = cursor2.fetchall()
+        n = 1
+        for rep, email in zip(reps, emails):
+            Representatives[n] = {}
+            Representatives[n]['rep'] = rep[0]
+            Representatives[n]['email'] = email[0]
+            n += 1
 
-    # Inbox
-    cursor1.execute('SELECT Email FROM Inbox')
-    cursor2.execute('SELECT Subject FROM Inbox')
-    cursor3.execute('SELECT Body FROM Inbox')
-    cursor4.execute('SELECT Time FROM Inbox')
-    cursor5.execute('SELECT Reps FROM Inbox')
+        # Inbox
+        cursor1.execute(
+            'SELECT Email FROM Inbox WHERE Company = ?', (company,))
+        cursor2.execute(
+            'SELECT Subject FROM Inbox WHERE Company = ?', (company,))
+        cursor3.execute('SELECT Body FROM Inbox WHERE Company = ?', (company,))
+        cursor4.execute('SELECT Time FROM Inbox WHERE Company = ?', (company,))
+        cursor5.execute('SELECT Reps FROM Inbox WHERE Company = ?', (company,))
 
-    emails = cursor1.fetchall()
-    subjects = cursor2.fetchall()
-    bodies = cursor3.fetchall()
-    times = cursor4.fetchall()
-    reps = cursor5.fetchall()
+        emails = cursor1.fetchall()
+        subjects = cursor2.fetchall()
+        bodies = cursor3.fetchall()
+        times = cursor4.fetchall()
+        reps = cursor5.fetchall()
 
-    n = 1
-    for email, subject, body, time, rep in zip(emails, subjects, bodies, times, reps):
-        Inbox[n] = {}
-        Inbox[n]['email'] = email[0]
-        Inbox[n]['subject'] = subject[0]
-        Inbox[n]['body'] = body[0]
-        Inbox[n]['time'] = time[0]
-        Inbox[n]['rep'] = rep[0]
-        n += 1
+        n = 1
+        for email, subject, body, time, rep in zip(emails, subjects, bodies, times, reps):
+            Inbox[n] = {}
+            Inbox[n]['email'] = email[0]
+            Inbox[n]['subject'] = subject[0]
+            Inbox[n]['body'] = body[0]
+            Inbox[n]['time'] = time[0]
+            Inbox[n]['rep'] = rep[0]
+            n += 1
 
     # Sent
     cursor1.execute('SELECT Email FROM Sent')
@@ -98,12 +103,47 @@ def prep_data():
     }
 
     return all_data
+# def generate_paragraph(data):
+#     businesses = data.get("Businesses", {})
+#     representatives = data.get("Representatives", {})
+#     inbox = data.get("Inbox", {})
+#     sent = data.get("Sent", {})
+
+#     business_info = ", ".join(
+#         [f"{business}: {role}" for business, role in businesses.items()])
+
+#     representatives_info = ""
+#     for rep_id, rep_data in representatives.items():
+#         representatives_info += f"{rep_data['rep']} can be reached at {rep_data['email']} representing {rep_data['company']}. "
+
+#     inbox_info = ""
+#     for email_id, email_data in inbox.items():
+#         inbox_info += f"Received an email with subject '{email_data['subject']}' from {email_data['email']} on {email_data['time']}. "
+
+#     sent_info = ""
+#     for email_id, email_data in sent.items():
+#         sent_info += f"Sent an email with subject '{email_data['subject']}' to {email_data['email']} on {email_data['time']}. "
 
 
+#     paragraph = f"In this dataset, there are {len(businesses)} businesses involved: {business_info}. "
+#     paragraph += f"The representatives associated with these businesses are {representatives_info} "
+#     paragraph += f"The inbox contains {len(inbox)} emails. {inbox_info} "
+#     paragraph += f"There are also {len(sent)} sent emails. {sent_info}"
+#     return paragraph
 # Call the function to retrieve data
 all_data = prep_data()
-# print(all_data)
-
-# Save all data to a single JSON file
-with open('emerow_cat\gpt\email_data.json', 'w') as f:
-    json.dump(all_data, f, indent=4)
+# Save all data to a single text file
+with open('emerow_cat\gpt\email_data.txt', 'w') as f:
+    json.dump(all_data, f)
+    # for category, data in all_data.items():
+    #     f.write(f"{category}:\n")
+    #     if isinstance(data, dict):
+    #         for key, values in data.items():
+    #             f.write(f"\t{key}:\n")
+    #             if isinstance(values, dict):
+    #                 for k, v in values.items():
+    #                     f.write(f"\t\t{k}: {v}\n")
+    #             else:
+    #                 f.write(f"\t\t{values}\n")
+    #     else:
+    #         f.write(f"\t{data}\n")
