@@ -1,3 +1,4 @@
+from data_prep import add_data
 from langchain_google_vertexai import VertexAI
 from langchain_google_vertexai import VertexAIEmbeddings
 from langchain.chains import RetrievalQA
@@ -8,33 +9,17 @@ from langchain_community.document_loaders import TextLoader
 import time
 import os
 import streamlit as st
+import subprocess
 
 
 # st.set_page_config(page_title='Google PalM 2', layout='wide')
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\gen-lang-client-0071164010-e2ee8d656ec2.json'
 
 
-# def data_embedding():
-#     file_path = r"C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\email_data2.txt"
-#     # Step 1. Load
-#     loader = TextLoader(file_path)
-#     documents = loader.load()
-
-#     text_splitter = RecursiveCharacterTextSplitter(
-#         chunk_size=1000, chunk_overlap=10)
-#     texts = text_splitter.split_documents(documents)
-
-#     embeddings = VertexAIEmbeddings(model_name='textembedding-gecko@003')
-#     persist_directory = r'C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\test_db'
-#     db = Chroma.from_documents(
-#         documents=documents, embedding=embeddings, persist_directory=persist_directory)
-#     print('Data embedding complete!')
-
-
-def add_doc():
+def refresh():
     vectorstore = read_data()
   # new data
-    file_path = r"C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\email_data2.txt"
+    file_path = r"C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\email_data_new.txt"
     # Step 1. Load
     loader = TextLoader(file_path)
     documents = loader.load()
@@ -88,9 +73,21 @@ def gen_answer(question):
     return answer
 
 
+def is_file_empty(file_path):
+    return os.path.getsize(file_path) == 0
+
+
 st.set_page_config(page_title="Mimi", page_icon=":cat:")
+
+
 if st.sidebar.button('Refresh'):
-    add_doc()
+    add_data()
+    refresh()
+first_time = r"emerow_cat\gpt\first_time.py"
+if st.sidebar.button('first time'):
+    if is_file_empty('emerow_cat\gpt\email_data_new.txt') and is_file_empty('emerow_cat\gpt\email_data.txt'):
+        run = subprocess.Popen(["python", first_time])
+        run.communicate()
 
 c1, c2 = st.columns([4, 1])
 with c1:

@@ -13,7 +13,7 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\seren\OneDrive\Documen
 
 
 def data_embedding():
-    file_path = r"C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\email_data.txt"
+    file_path = r"C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\email_data_new.txt"
     # Step 1. Load
     loader = TextLoader(file_path)
     documents = loader.load()

@@ -58,7 +58,7 @@ for msg in msgs[::-1]:
     for response_part in msg:
         if type(response_part) is tuple:
             my_msg = email.message_from_bytes((response_part[1]))
-            print("_________________________________________")
+            # print("_________________________________________")
             email_address = []
             name = []
             company = []
@@ -69,7 +69,7 @@ for msg in msgs[::-1]:
                 if c == '<':
                     email_address.append(my_msg['from'][i+1:-1])
                     name.append(my_msg['from'][:i])
-            print("subj:", my_msg['subject'])
+            # print("subj:", my_msg['subject'])
             subject = my_msg['subject']
             # print("from:", my_msg['from'])
             reps_address = email_address[0]
@@ -88,11 +88,11 @@ for msg in msgs[::-1]:
                 if count == 2:
                     time.append(date[:i])
 
-            print(reps_address)
-            print(reps_name)
-            print(company_name)
-            print("body:")
-            print("date:" + my_msg.get("Date"))
+            # print(reps_address)
+            # print(reps_name)
+            # print(company_name)
+            # print("body:")
+            # print("date:" + my_msg.get("Date"))
             if my_msg.get("In-Reply-To") or my_msg.get("References"):
                 print("THIS MSG IS A REPLY")
 
@@ -107,7 +107,7 @@ for msg in msgs[::-1]:
                             payload = payload.decode(encoding)
                         except UnicodeDecodeError:
                             payload = payload.decode('iso-8859-1')
-                    print(payload)
+                    # print(payload)
             mail_id = str(mail_id_list[id_count])
             clean_id = []
             c = 0
