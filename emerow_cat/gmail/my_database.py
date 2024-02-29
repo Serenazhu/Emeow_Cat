@@ -121,5 +121,5 @@ class Database:
                     'INSERT INTO Inbox (Body) VALUES (?)', (body,)
                 )
 
-        conn.commit()  # Don't forget to commit the changes
+        conn.commit()
         conn.close()

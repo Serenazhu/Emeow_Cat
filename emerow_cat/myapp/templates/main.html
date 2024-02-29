@@ -20,62 +20,93 @@
     ></script>
   </head>
   <body>
-    <img src="{% static 'images/logo.png' %}" alt="logo"width="300" height="auto" />
-    <h4 class = "position-absolute top-0 start-50 translate-middle", style="margin-top: 15%; font-family: 'Comic Sans MS', cursive">Try <span><a href="#", style="color: rgb(223, 110, 129); font-family: 'Comic Sans MS', cursive">Mimi</a></span>, Your Personal Email Assistant</h2>
-    <!-- <h1 style="margin-left: 43%; margin-top: 8%">Emeow Cat</h1> -->
-    <h1 class="position-absolute top-0 start-50 translate-middle", style="margin-top: 10%;font-family: 'Comic Sans MS'">Emeow Cat</h1>
-    <div class="container text-center">
-      <div class="row", style="margin-top: 15% ;">
-        <div class="col">
-          <a
+    <img src="{% static 'images/logo.png' %}" alt="logo" width="300" height="auto", style="margin-left: -2%;"/>
+    <h4 class = "position-absolute top-0 start-50 translate-middle", style="margin-top: 13%; font-family: 'Comic Sans MS', cursive">Try <span><a href="#", style="color: rgb(223, 110, 129); font-family: 'Comic Sans MS', cursive">Mimi</a></span>, Your Personal Email Assistant</h2>
+    <div style="display: flex;flex-wrap: wrap;">
+<!-- <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+      <input class="position-absolute top-0 start-50 translate-middle" style="margin-top: 16vw;border-width: 1px;border-color: rgb(200, 193, 183);"type="email" name="email" id="id_email" id="colFormLabel" placeholder="email">
+      <input class="position-absolute top-0 start-50 translate-middle" style="margin-top: 19vw;border-width: 1px;border-color: rgb(200, 193, 183);" type="password" name="key"  id="colFormLabel" placeholder="key">
+      <h5 class="position-absolute top-0 start-40 translate-middle-y"style="margin-top: 22vw;left: 39vw;  font-weight: normal">gemini api cred.</h5>
+      <input class="position-absolutes top-0 start-50 translate-middle-y" style="margin-top: 22vw;" type="file" name="file"/>
+      <button class="position-absolute top-0 start-50 translate-middle-y" style="margin-top: 22vw;margin-left: 11vw;" type="submit">Submit</button>
+    </form> -->
+    <!-- <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input class="position-absolute top-0 start-50 translate-middle" style="margin-top: 16vw;border-width: 1px;border-color: rgb(200, 193, 183);" type="email" name="email" id="id_email" id="colFormLabel" placeholder="email">
+      <input class="position-absolute top-0 start-50 translate-middle" style="margin-top: 19vw;border-width: 1px;border-color: rgb(200, 193, 183);" type="password" name="key"  id="colFormLabel" placeholder="key">
+      <h5 class="position-absolute top-0 start-40 translate-middle-y" style="margin-top: 22vw;left: 39vw;  font-weight: normal">gemini api cred.</h5>
+      <input class="position-absolute top-0 start-50 translate-middle-y" style="margin-top: 22vw;" type="file" name="file"/>
+      <button class="position-absolute top-0 start-50 translate-middle-y" style="margin-top: 22vw;margin-left: 11vw;" type="submit">Submit</button>
+    </form> -->
+    <!-- <form method = "post" action="/submit_crendentials">
+      {{form}}
+      <button type = "submit", name="credential_form">Submit</button>
+    </form> -->
+    
+    
+      <div class="container text-center">
+        <div class="row", style="margin-top: 15% ;">
+          <div class="col">
+            <a
+              class="btn btn-primary btn-lg"
+              role="button"
+              href="/companies/?type=Supplier"
+              style="
+                padding-top: 18px;
+                padding-bottom: 18px;
+                border-radius: 7px;
+                background-color: rgb(230, 184, 239);
+                border-color: blueviolet;
+                color: black;
+              "
+            >
+              Supplier
+            </a>
+          </div>
+          <div class="col"><a
             class="btn btn-primary btn-lg"
             role="button"
-            href="companies/?type=Supplier"
+            href="/companies/?type=Client"
             style="
+              padding-left: 30px;
+              padding-right: 30px;
               padding-top: 18px;
               padding-bottom: 18px;
               border-radius: 7px;
-              background-color: rgb(230, 184, 239);
-              border-color: blueviolet;
+              background-color: rgb(152, 191, 250);
+              color: black;
+              font-size: 20px;
+            "
+            >Client</a
+          ></div>
+          <div class="col"><a
+            class="btn btn-primary btn-lg"
+            role="button"
+            href="/outbox/"
+            style="
+              padding: 20px;
+              padding-left: 35px;
+              padding-right: 35px;
+              border-radius: 7px;
+              background-color: rgb(237, 233, 162);
+              border-color: rgb(153, 150, 63);
               color: black;
             "
           >
-            Supplier
-          </a>
-        </div>
-        <div class="col"><a
-          class="btn btn-primary btn-lg"
-          role="button"
-          href="companies/?type=Client"
-          style="
-            padding-left: 30px;
-            padding-right: 30px;
-            padding-top: 18px;
-            padding-bottom: 18px;
-            border-radius: 7px;
-            background-color: rgb(152, 191, 250);
-            color: black;
-            font-size: 20px;
-          "
-          >Client</a
-        ></div>
-        <div class="col"><a
-          class="btn btn-primary btn-lg"
-          role="button"
-          href="outbox/"
-          style="
-            padding: 20px;
-            padding-left: 35px;
-            padding-right: 35px;
-            border-radius: 7px;
-            background-color: rgb(237, 233, 162);
-            border-color: rgb(153, 150, 63);
-            color: black;
-          "
-        >
-          Sent
-        </a></div>
- 
+            Sent
+          </a></div>
+   
+      </div>
+      
+    </div>
+      
+
+    <h1 class="position-absolute top-0 start-50 translate-middle", style="margin-top: 10%;font-family: 'Comic Sans MS'">Emeow Cat</h1>
+    
+    
     
   </body>
 </html>
+

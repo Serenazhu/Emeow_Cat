@@ -13,13 +13,13 @@ import subprocess
 
 
 # st.set_page_config(page_title='Google PalM 2', layout='wide')
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\gen-lang-client-0071164010-e2ee8d656ec2.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'emerow_cat\gpt\gen-lang-client-0071164010-e2ee8d656ec2.json'
 
 
 def refresh():
     vectorstore = read_data()
   # new data
-    file_path = r"C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\email_data_new.txt"
+    file_path = r"emerow_cat\gpt\email_data_new.txt"
     # Step 1. Load
     loader = TextLoader(file_path)
     documents = loader.load()
@@ -38,7 +38,7 @@ def refresh():
 def read_data():
     embeddings = VertexAIEmbeddings(model_name='textembedding-gecko@003')
     # 'C:/Users/Leo/OneDrive - CBRE, Inc/Documents/Python AI Projects/TM1 AI Assistant Project/palm_db'
-    persist_directory = r'C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\test_db'
+    persist_directory = r'emerow_cat\gpt\test_db'
     store = Chroma(persist_directory=persist_directory,
                    embedding_function=embeddings)
     return store
@@ -124,7 +124,7 @@ if prompt:
 
         st.divider()
         page_content_value = result['source_documents'][0].page_content
-        st.caption('Source Documents :books:')
+        st.caption('Reference :books:')
         st.markdown(page_content_value)
 
 # streamlit run "C:\Users\Leo\OneDrive - CBRE, Inc\Documents\Python AI Projects\PostgreSQL DB\TM1 AI Assistant Project\tm1_ai_palm.py"

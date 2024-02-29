@@ -26,5 +26,6 @@ urlpatterns = [
     path('mail/', include("myapp.urls")),
     path('outbox/', include("myapp.urls")),
     path('outbox_mail/', include("myapp.urls")),
+    path('credentials/', include("myapp.urls")),
     path('auth/', include('social_django.urls', namespace='social'))
 ]

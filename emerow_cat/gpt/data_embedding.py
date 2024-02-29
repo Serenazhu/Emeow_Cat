@@ -7,13 +7,12 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
 import time
 import os
-import streamlit as st
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\gen-lang-client-0071164010-e2ee8d656ec2.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'emerow_cat\gpt\gen-lang-client-0071164010-e2ee8d656ec2.json'
 
 
 def data_embedding():
-    file_path = r"C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\email_data_new.txt"
+    file_path = r"emerow_cat\gpt\email_data_new.txt"
     # Step 1. Load
     loader = TextLoader(file_path)
     documents = loader.load()
@@ -23,7 +22,7 @@ def data_embedding():
     texts = text_splitter.split_documents(documents)
 
     embeddings = VertexAIEmbeddings(model_name='textembedding-gecko@003')
-    persist_directory = r'C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\test_db'
+    persist_directory = r'emerow_cat\gpt\test_db'
     db = Chroma.from_documents(
         documents=documents, embedding=embeddings, persist_directory=persist_directory)
     print('Data embedding complete!')

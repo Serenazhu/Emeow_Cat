@@ -1,1 +1,1 @@
-{"Businesses": {}, "Representatives": {}, "Inbox": {"29": {"email": "serenazhu11@gmail.com", "subject": "toy", "body": "the toy is purple\r\n", "time": "Sun, 25 Feb 2024 15:26", "rep": "Serena Zhu "}}, "Sent": {"30": {}}}
+{"Businesses": {}, "Representatives": {}, "Inbox": {"29": {"email": "serenazhu11@gmail.com", "subject": "sticky notes", "body": "the sticky note is yellow\r\n", "time": "Sun, 25 Feb 2024 16:07", "rep": "Serena Zhu "}}, "Sent": {"30": {}}}

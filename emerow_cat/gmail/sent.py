@@ -2,8 +2,6 @@ import imaplib
 import email
 import base64
 import chardet
-import sqlite3
-import yaml  # To load saved login credentials from a yaml file
 from my_database import Database
 
 # Gmail IMAP server details
