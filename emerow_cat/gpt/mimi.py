@@ -1,4 +1,7 @@
-from data_prep import add_data
+# from refresh_data_prep import add_data
+import refreshed_data_prep
+import first_data_prep
+import data_embedding
 from langchain_google_vertexai import VertexAI
 from langchain_google_vertexai import VertexAIEmbeddings
 from langchain.chains import RetrievalQA
@@ -11,15 +14,23 @@ import os
 import streamlit as st
 import subprocess
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
 
+# Construct the path to the file in the parent directory
+
+credential = os.path.join(
+    parent_dir, r'gpt/credential.json')
 # st.set_page_config(page_title='Google PalM 2', layout='wide')
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'emerow_cat\gpt\gen-lang-client-0071164010-e2ee8d656ec2.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential
+email_data = os.path.join(
+    parent_dir, r'gpt/email_data.txt')
 
 
 def refresh():
     vectorstore = read_data()
   # new data
-    file_path = r"emerow_cat\gpt\email_data_new.txt"
+    file_path = email_data
     # Step 1. Load
     loader = TextLoader(file_path)
     documents = loader.load()
@@ -35,26 +46,36 @@ def refresh():
     print('Data add complete!')
 
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Navigate to the parent directory
+parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
+
+# Construct the path to the file in the parent directory
+
+db = os.path.join(
+    parent_dir, r'gpt/emb_db')
+
+
 def read_data():
     embeddings = VertexAIEmbeddings(model_name='textembedding-gecko@003')
     # 'C:/Users/Leo/OneDrive - CBRE, Inc/Documents/Python AI Projects/TM1 AI Assistant Project/palm_db'
-    persist_directory = r'emerow_cat\gpt\test_db'
+    persist_directory = db
     store = Chroma(persist_directory=persist_directory,
                    embedding_function=embeddings)
     return store
 
 
 def gen_answer(question):
-    prompt_template = """As a personal assistant, you will be presented with someone's self introduction
+    prompt_template = """As an email assistant, you will be presented with someone's inbox and outbox.
 
-    Here are the info about that person:
+    Here are the all the emails:
     {context}
 
     Question from the user:  
     {question}
 
     Please provide the most suitable response to be sent to the user. If the recommended response is irrelevant, please make it clear that the answer is from Google PaLM own knowledge.
-    Always say "Happy querying! 😊" at the end of the answer.
     """
     QA_CHAIN_PROMPT = PromptTemplate.from_template(prompt_template)
 
@@ -68,7 +89,6 @@ def gen_answer(question):
                                            retriever=retriever,
                                            return_source_documents=True,
                                            chain_type_kwargs={"prompt": QA_CHAIN_PROMPT})
-    # answer=qa_chain.run(question)
     answer = qa_chain(question)
     return answer
 
@@ -78,23 +98,31 @@ def is_file_empty(file_path):
 
 
 st.set_page_config(page_title="Mimi", page_icon=":cat:")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
 
 
 if st.sidebar.button('Refresh'):
-    add_data()
+    refreshed_data_prep.data_prep_2()
     refresh()
-first_time = r"emerow_cat\gpt\first_time.py"
+
+
+# Construct the path to the file in the parent directory
+
+
+email_data = os.path.join(
+    parent_dir, r'gpt/email_data.txt'
+)
+
 if st.sidebar.button('first time'):
-    if is_file_empty('emerow_cat\gpt\email_data_new.txt') and is_file_empty('emerow_cat\gpt\email_data.txt'):
-        run = subprocess.Popen(["python", first_time])
-        run.communicate()
+    if is_file_empty(email_data):
+        first_data_prep.data_prep_1()
+        data_embedding.data_embedding()
 
 c1, c2 = st.columns([4, 1])
 with c1:
     st.subheader("Mimi :cat:")
-# with c2:
-#     img=Image.open(r'D:\LZhu Documents\Python Program\cbre.png')
-#     img=st.image(img)
+
 
 # Chat History List
 # Intialization key='msg'
@@ -116,16 +144,18 @@ if prompt:
     with st.chat_message('user'):
         st.markdown(prompt)
     with st.chat_message('assistant'):
-        st.write("Generating best practice message...")
+        st.write("Analyzing your emails...")
         result = gen_answer(prompt)
         st.session_state['msg'].append(
             {'role': 'assistant', 'content': result.get('result')})
         st.info(result.get('result'))
 
-        st.divider()
-        page_content_value = result['source_documents'][0].page_content
-        st.caption('Reference :books:')
-        st.markdown(page_content_value)
+        # st.divider()
+        # page_content_value = result['source_documents'][0].page_content
+        # st.caption('Reference :books:')
+        # st.markdown(page_content_value)
 
 # streamlit run "C:\Users\Leo\OneDrive - CBRE, Inc\Documents\Python AI Projects\PostgreSQL DB\TM1 AI Assistant Project\tm1_ai_palm.py"
  # streamlit run "TM1 AI Assistant Project\pages\tm1_ai_PaLM.py"
+
+# streamlit run "C:\Users\seren\OneDrive\Documents\Emeow_cat\emeow_cat_web\emerow_cat\gpt\mimi.py"

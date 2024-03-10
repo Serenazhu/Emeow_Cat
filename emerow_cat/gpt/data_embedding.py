@@ -5,14 +5,26 @@ from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
-import time
+import getpass
 import os
-
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'emerow_cat\gpt\gen-lang-client-0071164010-e2ee8d656ec2.json'
 
 
 def data_embedding():
-    file_path = r"emerow_cat\gpt\email_data_new.txt"
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
+
+    credential = os.path.join(
+        parent_dir, r'gpt/credential.json')
+    with open(credential, 'r') as file:
+        # Read the contents of the file
+        key = file.read()
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential
+    # if "GOOGLE_API_KEY" not in os.environ:
+    #     os.environ["GOOGLE_API_KEY"] = getpass.getpass(key)
+
+    email_data_new = os.path.join(
+        parent_dir, r'gpt/email_data.txt')
+    file_path = email_data_new
     # Step 1. Load
     loader = TextLoader(file_path)
     documents = loader.load()
@@ -22,10 +34,10 @@ def data_embedding():
     texts = text_splitter.split_documents(documents)
 
     embeddings = VertexAIEmbeddings(model_name='textembedding-gecko@003')
-    persist_directory = r'emerow_cat\gpt\test_db'
+
+    db = os.path.join(
+        parent_dir, r'gpt/emb_db')
+    persist_directory = db
     db = Chroma.from_documents(
         documents=documents, embedding=embeddings, persist_directory=persist_directory)
     print('Data embedding complete!')
-
-
-data_embedding()

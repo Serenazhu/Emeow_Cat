@@ -6,8 +6,18 @@ import yaml  # To load saved login credentials from a yaml file
 from my_database import Database
 from datetime import datetime
 import email.utils
+import subprocess
+import os
 
-with open("emerow_cat\gmail\credentials.yml") as f:
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Navigate to the parent directory
+parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
+
+# Construct the path to the file in the parent directory
+
+credential = file_path = os.path.join(parent_dir, r'gmail/credential.yml')
+with open(credential) as f:
     content = f.read()
 
 # from credentials.yml import user name and password

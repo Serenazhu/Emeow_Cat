@@ -2,8 +2,10 @@ import imaplib
 import email
 import base64
 import chardet
+import yaml  # To load saved login credentials from a yaml file
 from my_database import Database
-import yaml
+from datetime import datetime, timedelta
+import email.utils
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -22,22 +24,26 @@ my_credentials = yaml.load(content, Loader=yaml.FullLoader)
 
 # Load the user name and passwd from yaml file
 user, password = my_credentials["user"], my_credentials["password"]
+
 # URL for IMAP connection
 imap_url = 'imap.gmail.com'
 
 # Connection with GMAIL using SSL
 my_mail = imaplib.IMAP4_SSL(imap_url)
+
+# Log in using your credentials
 my_mail.login(user, password)
 
 # Select the "Sent" mailbox
 my_mail.select('"[Gmail]/Sent Mail"')
 
 # Search for all emails in the Sent folder
-result, data = my_mail.search(None, 'ALL')
-mail_id_list = data[0].split()[::-1]
+one_month_ago = datetime.now() - timedelta(days=30)
+since_date = one_month_ago.strftime('%d-%b-%Y')
 
-# Limit the number of emails to fetch to 30
-mail_id_list = mail_id_list[:30]
+# Search for emails from the past month
+_, data = my_mail.search(None, 'SINCE', since_date)
+mail_id_list = data[0].split()[::-1]
 
 msgs = []
 for num in mail_id_list:

@@ -9,5 +9,7 @@ urlpatterns = [
     path('mail/', views.mail, name="mail"),
     path('outbox/', views.outbox, name="outbox"),
     path('outbox_mail/', views.outbox_mail, name="outbox_mail"),
-    path('credentials/', views.credential_form, name="credentials")
+    path('credentials/', views.credential_form, name="credentials"),
+    path('refresh/', views.refresh, name="refresh"),
+    path('new/', views.new, name="new")
 ]

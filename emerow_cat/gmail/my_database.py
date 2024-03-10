@@ -1,4 +1,11 @@
 import sqlite3
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Navigate to the parent directory
+parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir, os.pardir))
+db_path = os.path.join(parent_dir, "emaildb.db")
+# print("PATH: " + db_path)
 
 
 class Database:
@@ -12,7 +19,8 @@ class Database:
         self.id = id
 
     def businesses_db(self):
-        conn = sqlite3.connect('emaildb.db')
+        conn = sqlite3.connect(
+            db_path)
         cursor = conn.cursor()
 
         cursor.execute(
@@ -29,7 +37,7 @@ class Database:
             conn.close()
 
     def representatives_db(self):
-        conn = sqlite3.connect('emaildb.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
 
         cursor.execute(
@@ -46,7 +54,7 @@ class Database:
             conn.close()
 
     def inbox_db(self):
-        conn = sqlite3.connect('emaildb.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         subject = self.subject.replace("Re: ", "")
         cursor.execute(
@@ -64,14 +72,14 @@ class Database:
                 'DELETE FROM Inbox WHERE Subject = ?', (subject,))
 
             cursor.execute(
-                'INSERT INTO Inbox (Email, Subject, Body, Time, Id, Reps) VALUES (?, ?, ?, ?, ?, ?)', (
-                    self.reps_address, subject, self.body, self.time, self.id, self.reps_name)
+                'INSERT INTO Inbox (Email, Subject, Body, Time, Id, Reps, Company) VALUES (?, ?, ?, ?, ?, ?, ?)', (
+                    self.reps_address, subject, self.body, self.time, self.id, self.reps_name, self.company_name)
             )
         conn.commit()
         conn.close()
 
     def sent(self):
-        conn = sqlite3.connect('emaildb.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         receiver_address = self.reps_address
         subject = self.subject.replace("Re: ", "")
@@ -95,7 +103,7 @@ class Database:
         conn.close()
 
     def choose(self):
-        conn = sqlite3.connect('emaildb.db')
+        conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         subject = self.subject.replace("Re: ", "")
         cursor.execute(

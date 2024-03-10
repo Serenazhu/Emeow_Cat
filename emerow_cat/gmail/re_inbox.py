@@ -2,8 +2,10 @@ import imaplib
 import email
 import base64
 import chardet
+import yaml  # To load saved login credentials from a yaml file
 from my_database import Database
-import yaml
+from datetime import datetime, timedelta
+import email.utils
 import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -22,45 +24,61 @@ my_credentials = yaml.load(content, Loader=yaml.FullLoader)
 
 # Load the user name and passwd from yaml file
 user, password = my_credentials["user"], my_credentials["password"]
+
 # URL for IMAP connection
 imap_url = 'imap.gmail.com'
 
 # Connection with GMAIL using SSL
 my_mail = imaplib.IMAP4_SSL(imap_url)
+
+# Log in using your credentials
 my_mail.login(user, password)
 
 # Select the "Sent" mailbox
-my_mail.select('"[Gmail]/Sent Mail"')
+my_mail.select('Inbox')
 
 # Search for all emails in the Sent folder
-result, data = my_mail.search(None, 'ALL')
-mail_id_list = data[0].split()[::-1]
+one_month_ago = datetime.now() - timedelta(days=30)
+since_date = one_month_ago.strftime('%d-%b-%Y')
 
-# Limit the number of emails to fetch to 30
-mail_id_list = mail_id_list[:30]
+# Search for emails from the past month
+_, data = my_mail.search(None, 'SINCE', since_date)
+mail_id_list = data[0].split()[::-1]
 
 msgs = []
 for num in mail_id_list:
     # Fetch the email
-    type, data = my_mail.fetch(num, '(RFC822)')
+    _, data = my_mail.fetch(num, '(RFC822)')
     msgs.append(data)
 
 id_count = 0
 payload = None
 for msg in msgs[::-1]:
+    print("hi")
     for response_part in msg:
-        if isinstance(response_part, tuple):
+        if type(response_part) is tuple:
             my_msg = email.message_from_bytes((response_part[1]))
-            print("_________________________________________")
+            # print("_________________________________________")
             email_address = []
             name = []
             company = []
-            time = []
-            time.append(my_msg["date"])
-            receiver_address = my_msg['To']
-            print("TO" + my_msg['To'])
+            # time = []
+            # time.append(my_msg["date"])
+            time = email.utils.parsedate_to_datetime(my_msg["date"])
+            for i, c in enumerate(my_msg['from']):
+                if c == '<':
+                    email_address.append(my_msg['from'][i+1:-1])
+                    name.append(my_msg['from'][:i])
             print("subj:", my_msg['subject'])
             subject = my_msg['subject']
+            # print("from:", my_msg['from'])
+            reps_address = email_address[0]
+            for i, c in enumerate(reps_address):
+                if c == '@':
+                    company.append(reps_address[i+1:-4])
+            reps_name = name[0]
+            reps_address = email_address[0]
+            company_name = company[0]
             date = my_msg.get("Date")
             time = []
             count = 0
@@ -70,11 +88,16 @@ for msg in msgs[::-1]:
                 if count == 2:
                     time.append(date[:i])
 
-            print("date:" + my_msg.get("Date"))
+            # print(reps_address)
+            # print(reps_name)
+            # print(company_name)
+            # print("body:")
+            # print("date:" + my_msg.get("Date"))
             if my_msg.get("In-Reply-To") or my_msg.get("References"):
                 print("THIS MSG IS A REPLY")
 
             for part in my_msg.walk():
+                # print(part.get_content_type())
                 if part.get_content_type() == 'text/plain':
                     payload = part.get_payload()
                     if part['Content-Transfer-Encoding'] == 'base64':
@@ -84,7 +107,7 @@ for msg in msgs[::-1]:
                             payload = payload.decode(encoding)
                         except UnicodeDecodeError:
                             payload = payload.decode('iso-8859-1')
-                    print(payload)
+                    # print(payload)
             mail_id = str(mail_id_list[id_count])
             clean_id = []
             c = 0
@@ -97,8 +120,9 @@ for msg in msgs[::-1]:
                     c += 1
             actual_id = str(''.join(clean_id))
 
-            my_db = Database(None, None, receiver_address,
+            my_db = Database(company_name, reps_name, reps_address,
                              subject, payload, time[0], actual_id)
             id_count += 1
-            my_db.sent()
-            my_db.choose()
+            my_db.businesses_db()
+            my_db.representatives_db()
+            my_db.inbox_db()
